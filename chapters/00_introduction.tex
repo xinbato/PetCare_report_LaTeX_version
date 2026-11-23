@@ -1,0 +1,180 @@
+% ================= PHẦN MỞ ĐẦU =================
+\chapter*{PHẦN MỞ ĐẦU}
+\addcontentsline{toc}{chapter}{PHẦN MỞ ĐẦU}
+
+\section*{1. Tính cấp thiết của đề tài}
+\addcontentsline{toc}{section}{1. Tính cấp thiết của đề tài}
+
+Trong những năm gần đây, cùng với sự phát triển kinh tế xã hội và quá trình đô thị hóa nhanh chóng, xu hướng nuôi thú cưng (chó, mèo,\dots) tại Việt Nam đang có sự chuyển dịch mạnh mẽ. Thú cưng không còn đơn thuần là vật nuôi giữ nhà mà đã trở thành những người bạn tri kỷ, những ``thành viên bốn chân'' chính thức trong mỗi gia đình (hiện tượng Pet Humanization). Điều này kéo theo nhu cầu ngày càng tăng cao về các dịch vụ chăm sóc sức khỏe, y tế, dinh dưỡng và làm đẹp cho thú cưng.
+
+Tuy nhiên, trong công tác chăm sóc và nuôi dưỡng thực tế, người nuôi thú cưng đang phải đối mặt với nhiều trở ngại lớn:
+\begin{itemize}
+    \item \textbf{Thiếu hồ sơ sức khỏe tập trung và nguy cơ thất lạc dữ liệu y tế:} Hiện nay, phần lớn người nuôi vẫn theo dõi sức khỏe vật nuôi bằng sổ tiêm chủng giấy hoặc các ghi chú rời rạc. Hình thức này rất dễ gây rách nát, hư hỏng hoặc thất lạc. Đáng chú ý, khi thú cưng chuyển đổi giữa các phòng khám thú y khác nhau, tiền sử bệnh án, lịch sử tiêm phòng, tẩy giun và tiền sử dị ứng thuốc dễ bị phân tán, khiến các bác sĩ thú y gặp nhiều khó khăn trong việc chẩn đoán chính xác hoặc dễ dẫn đến nguy cơ sốc phản vệ, dùng sai liều lượng thuốc.
+    \item \textbf{Khó khăn trong việc duy trì chăm sóc định kỳ:} Người nuôi thú cưng trong cuộc sống bận rộn thường quên các mốc tiêm chủng nhắc lại, lịch tẩy giun định kỳ, thời gian uống thuốc hằng ngày hay các mốc tái khám quan trọng, gây ảnh hưởng trực tiếp đến thể trạng của vật nuôi.
+    \item \textbf{Rào cản khi tìm kiếm dịch vụ thú y và chăm sóc khẩn cấp:} Khi thú cưng gặp sự cố sức khỏe hoặc khi có nhu cầu làm đẹp, mua sắm phụ kiện, người nuôi mất rất nhiều thời gian tìm kiếm cơ sở uy tín, không nắm rõ vị trí gần nhất, giờ mở cửa hay tuyến đường di chuyển thuận tiện.
+    \item \textbf{Hạn chế của các giải pháp hiện có:} Phần lớn các ứng dụng chăm sóc thú cưng hiện nay tại thị trường Việt Nam chỉ thuộc sở hữu nội bộ hoặc độc quyền của một chuỗi bệnh viện, phòng khám cụ thể, thiếu tính trung lập và không hỗ trợ người dùng tự do quản lý tổng thể nhiều thú cưng độc lập.
+\end{itemize}
+
+Xuất phát từ thực tế đó, việc nghiên cứu và phát triển một giải pháp phần mềm di động, độc lập, số hóa toàn diện quy trình quản lý thông tin sức khỏe, hỗ trợ nhắc lịch thông minh và tích hợp định vị cơ sở dịch vụ lân cận như \textbf{PetCareApp} là vô cùng cấp bách và mang tính thực tiễn cao.
+
+\section*{2. Giới thiệu đề tài}
+\addcontentsline{toc}{section}{2. Giới thiệu đề tài}
+
+\textbf{Tên đề tài:} Nghiên cứu và xây dựng ứng dụng di động quản lý và chăm sóc thú cưng (PetCare) trên nền tảng Android.
+
+\textbf{Loại hình đề tài:} Đề tài ứng dụng công nghệ phần mềm di động (Mobile Application Development) kết hợp dịch vụ dựa trên vị trí (Location-Based Services -- LBS).
+
+\textbf{Tổng quan về ứng dụng:} PetCareApp là ứng dụng di động chạy trên hệ điều hành Android, được thiết kế chuyên biệt nhằm cung cấp cho người nuôi thú cưng một hệ sinh thái tiện ích cá nhân toàn diện. Ứng dụng đóng vai trò như một ``Sổ sức khỏe điện tử'' và ``Trợ lý chăm sóc cá nhân'', cho phép người dùng:
+\begin{itemize}
+    \item Khởi tạo và quản lý hồ sơ định danh chi tiết cho nhiều thú cưng trong một tài khoản.
+    \item Số hóa toàn bộ dữ liệu y tế: sổ tiêm chủng (Vaccination), đơn thuốc và lịch uống thuốc (Medication), bệnh án và triệu chứng lâm sàng (Medical Record Book), biểu đồ theo dõi cân nặng và lịch sử khám định kỳ.
+    \item Quản lý lịch trình, thiết lập các sự kiện và việc cần làm (Todo/Calendar) có liên kết trực tiếp với từng thú cưng.
+    \item Định vị trực quan trên bản đồ số các phòng khám thú y, spa làm đẹp và cửa hàng thú cưng (Pet Shop) gần vị trí hiện tại của người dùng, hỗ trợ xem thông tin liên hệ và chỉ đường chi tiết.
+    \item Đồng bộ hóa dữ liệu thời gian thực (Real-time Sync) và bảo mật tài khoản thông qua nền tảng Google Firebase.
+\end{itemize}
+
+\section*{3. Lý do chọn đề tài}
+\addcontentsline{toc}{section}{3. Lý do chọn đề tài}
+
+Đề tài được lựa chọn dựa trên sự kết hợp hài hòa giữa ý nghĩa thực tiễn đời sống và giá trị nghiên cứu kỹ thuật công nghệ:
+
+\subsection*{3.1. Về mặt thực tiễn và xã hội}
+\begin{itemize}
+    \item \textbf{Giải quyết triệt để nỗi đau của người nuôi thú cưng:} Thay thế hoàn toàn phương pháp ghi chép sổ sách truyền thống bằng hệ thống lưu trữ số hóa an toàn, không lo thất lạc, tra cứu mọi lúc mọi nơi ngay trên smartphone.
+    \item \textbf{Nâng cao chất lượng chăm sóc và sức khỏe thú cưng:} Giúp người nuôi luôn chủ động tuân thủ đúng phác đồ điều trị, tiêm phòng đúng hạn, kiểm soát tốt chỉ số thể trạng (cân nặng, thân nhiệt, chế độ ăn uống).
+    \item \textbf{Tối ưu hóa thời gian và tiện ích:} Rút ngắn thời gian tiếp cận các dịch vụ y tế khẩn cấp thông qua tính năng bản đồ và định vị GPS chính xác.
+\end{itemize}
+
+\subsection*{3.2. Về mặt công nghệ và học thuật}
+\begin{itemize}
+    \item \textbf{Nắm bắt và ứng dụng công nghệ hiện đại nhất của Android:} Dự án là cơ hội để tiếp cận và làm chủ Jetpack Compose -- bộ công cụ phát triển giao diện người dùng theo mô hình khai báo (Declarative UI) tiên tiến nhất hiện nay của Google, kết hợp hệ thống thiết kế Material 3 (Material You).
+    \item \textbf{Vận dụng chuẩn kiến trúc phần mềm chuyên nghiệp:} Áp dụng mô hình kiến trúc MVVM (Model -- View -- ViewModel) kết hợp Repository Pattern, tận dụng tối đa sức mạnh của Kotlin Coroutines và StateFlow để quản lý luồng dữ liệu phản ứng (Reactive Data Streams), giúp mã nguồn đạt tính module hóa cao, dễ bảo trì và mở rộng.
+    \item \textbf{Tích hợp các nền tảng dịch vụ đám mây và bản đồ hàng đầu:} Làm chủ việc tích hợp hệ sinh thái Google Firebase (Firebase Authentication, Cloud Firestore NoSQL Database) cho bài toán đồng bộ dữ liệu thời gian thực, cũng như Google Maps Platform SDK (Maps Compose) cho bài toán xử lý dữ liệu địa lý.
+\end{itemize}
+
+\section*{4. Đối tượng và phạm vi thực hiện}
+\addcontentsline{toc}{section}{4. Đối tượng và phạm vi thực hiện}
+
+\subsection*{4.1. Đối tượng nghiên cứu và đối tượng sử dụng}
+
+\textbf{Đối tượng sử dụng:}
+\begin{itemize}
+    \item Các cá nhân, hộ gia đình đang chăm sóc, nuôi dưỡng thú cưng (chó, mèo,\dots).
+    \item Những người bận rộn cần giải pháp tự động nhắc nhở và quản lý dữ liệu chăm sóc vật nuôi khoa học.
+\end{itemize}
+
+\textbf{Đối tượng nghiên cứu kỹ thuật:}
+\begin{itemize}
+    \item Nền tảng phát triển ứng dụng di động Android Native bằng ngôn ngữ Kotlin.
+    \item Bộ công cụ xây dựng giao diện Jetpack Compose và Navigation Compose.
+    \item Hệ quản trị cơ sở dữ liệu phi quan hệ thời gian thực Google Cloud Firestore và dịch vụ xác thực Firebase Authentication.
+    \item Thư viện tích hợp bản đồ số Google Play Services Maps \& Maps Compose.
+    \item Quy trình thiết kế trải nghiệm người dùng (UI/UX) trên Figma.
+\end{itemize}
+
+\subsection*{4.2. Phạm vi thực hiện của đề tài}
+
+\textbf{Phạm vi nền tảng:}
+Ứng dụng chạy trên thiết bị di động sử dụng hệ điều hành Android (hỗ trợ từ Android 7.0 -- API Level 24 trở lên, tương thích tốt với các phiên bản Android mới nhất API 34+).
+
+\textbf{Phạm vi nghiệp vụ và chức năng hệ thống:}
+\begin{itemize}
+    \item \textbf{Phân hệ Xác thực \& Tài khoản:} Đăng ký, đăng nhập bằng Email/Mật khẩu; Đăng nhập nhanh qua Google (Credential Manager \& Google ID); Quy trình khôi phục mật khẩu (Forgot Password, OTP Verification, Reset Password); Quản lý thông tin hồ sơ cá nhân và hỗ trợ chuyển đổi giữa các tài khoản người dùng.
+    \item \textbf{Phân hệ Quản lý hồ sơ thú cưng:} Thêm thú cưng thủ công (nhập tên, loài, giống, ngày sinh, cân nặng, giới tính, ảnh đại diện) hoặc quét qua camera; Xem danh sách, chọn thú cưng đang hoạt động; Chỉnh sửa thông tin hồ sơ thú cưng.
+    \item \textbf{Phân hệ Sổ sức khỏe điện tử (Health Management):}
+    \begin{itemize}
+        \item Sổ tiêm chủng (Vaccination): Quản lý danh sách mũi tiêm, trạng thái (``Đã tiêm'' / ``Nhắc lại''), ngày tiêm, hỗ trợ thêm mới mũi tiêm.
+        \item Quản lý thuốc điều trị (Medication): Theo dõi tên thuốc, liều lượng, khung giờ uống trong ngày, số lượng viên còn lại, trạng thái đang dùng.
+        \item Nhật ký bệnh án (Medical Record Book): Ghi nhận các đợt khám bệnh, triệu chứng, loại hình hoạt động, biểu cảm/tâm trạng, đính kèm hình ảnh minh chứng.
+        \item Theo dõi thể trạng (Weight \& Checkup History): Ghi nhận lịch sử biến động cân nặng, lịch sử khám tổng quát tại phòng khám thú y.
+    \end{itemize}
+    \item \textbf{Phân hệ Lịch trình \& Nhắc nhở (Calendar \& Tasks):} Quản lý danh sách công việc cần làm gắn liền với từng thú cưng; Thêm mới, chỉnh sửa lịch hẹn (khám, tiêm, uống thuốc, vệ sinh, giờ ăn); Đánh dấu trạng thái hoàn thành.
+    \item \textbf{Phân hệ Bản đồ dịch vụ lân cận (Map \& Location-Based Services):} Tích hợp Google Maps hiển thị vị trí người dùng và các điểm dịch vụ thú cưng theo danh mục (Phòng khám thú y, Spa, Cửa hàng thú cưng); Hiển thị khoảng cách, xếp hạng đánh giá, trạng thái đóng/mở cửa, địa chỉ, số điện thoại liên hệ; Cho phép lưu danh sách địa điểm yêu thích.
+\end{itemize}
+
+\textbf{Giới hạn của đề tài:}
+\begin{itemize}
+    \item Đề tài tập trung xây dựng ứng dụng Native trên nền tảng Android, chưa phát triển phiên bản dành cho iOS.
+    \item Chưa tích hợp cổng thanh toán trực tuyến và tính năng mạng xã hội cộng đồng (các tính năng này được định hướng phát triển ở các giai đoạn tiếp theo).
+\end{itemize}
+
+\section*{5. Mục tiêu đạt được}
+\addcontentsline{toc}{section}{5. Mục tiêu đạt được}
+
+\subsection*{5.1. Mục tiêu tổng quát}
+Thiết kế và xây dựng thành công ứng dụng di động PetCare hoàn chỉnh, hoạt động ổn định trên nền tảng Android, đáp ứng đầy đủ các yêu cầu quản lý sức khỏe, lịch trình và hỗ trợ tìm kiếm dịch vụ thú y cho người nuôi thú cưng với giao diện hiện đại, thân thiện.
+
+\subsection*{5.2. Mục tiêu cụ thể}
+
+\textbf{Về mặt sản phẩm và tính năng:}
+\begin{itemize}
+    \item Hoàn thiện 100\% các màn hình giao diện theo đúng quy chuẩn thiết kế Figma, bảo đảm tính thẩm mỹ, nhất quán theo chuẩn Material Design 3.
+    \item Hiện thực hóa đầy đủ 5 phân hệ chức năng: Xác thực người dùng, Quản lý thông tin thú cưng, Quản lý hồ sơ sức khỏe điện tử, Quản lý lịch trình chăm sóc, Bản đồ tra cứu địa điểm dịch vụ.
+    \item Hệ thống vận hành mượt mà, tốc độ phản hồi nhanh, dữ liệu được đồng bộ hóa tức thời qua Firebase Firestore khi có kết nối mạng.
+\end{itemize}
+
+\textbf{Về mặt kỹ thuật và kiến trúc:}
+\begin{itemize}
+    \item Triển khai thành công kiến trúc chuẩn công nghiệp MVVM (Model -- View -- ViewModel) kết hợp StateFlow để phân tách độc lập giữa tầng giao diện hiển thị (UI) và tầng xử lý nghiệp vụ/dữ liệu (Business Logic \& Data Layer).
+    \item Tích hợp hiệu quả Google Play Services Maps và xử lý cấp quyền định vị động (Runtime Permissions) trên Android (\texttt{ACCESS\_FINE\_LOCATION}, \texttt{ACCESS\_COARSE\_LOCATION}).
+    \item Viết mã nguồn sạch, tường minh bằng Kotlin, tuân thủ nguyên tắc lập trình hiện đại, dễ dàng bảo trì và mở rộng các tính năng mới trong tương lai.
+\end{itemize}
+
+\section*{6. Phương pháp thực hiện}
+\addcontentsline{toc}{section}{6. Phương pháp thực hiện}
+
+Để hoàn thành đề tài một cách khoa học, hiệu quả và đúng tiến độ, nhóm đề tài áp dụng các phương pháp nghiên cứu và phát triển phần mềm sau:
+
+\subsection*{6.1. Phương pháp nghiên cứu lý thuyết}
+Nghiên cứu tài liệu kỹ thuật (Literature Review):
+\begin{itemize}
+    \item Nghiên cứu tài liệu chính thức từ Google dành cho lập trình viên Android (Android Developers Documentation, Jetpack Compose Guidelines, Material 3 Design).
+    \item Nghiên cứu tài liệu tích hợp SDK của Google Firebase (Firebase Auth, Cloud Firestore) và Google Maps Platform.
+\end{itemize}
+
+\subsection*{6.2. Phương pháp phân tích và thiết kế hệ thống}
+\begin{itemize}
+    \item \textbf{Mô hình hóa yêu cầu người dùng:} Xây dựng biểu đồ ca sử dụng (Use Case Diagram), đặc tả các luồng nghiệp vụ (Activity Diagram, Sequence Diagram).
+    \item \textbf{Thiết kế trải nghiệm người dùng (UI/UX Design):} Xây dựng kịch bản luồng thao tác (User Flow), phác thảo Wireframe và thiết kế chi tiết toàn bộ các màn hình giao diện, bảng màu, biểu tượng (iconography) trên công cụ Figma.
+    \item \textbf{Thiết kế cơ sở dữ liệu:} Thiết kế mô hình dữ liệu NoSQL tối ưu trên Cloud Firestore.
+\end{itemize}
+
+\subsection*{6.3. Quy trình phát triển phần mềm (Mô hình Agile / Scrum)}
+Quá trình lập trình được chia thành các vòng lặp phát triển (Sprints) nối tiếp nhau:
+\begin{itemize}
+    \item \textbf{Sprint 1: Phân tích \& Thiết kế:} Chốt yêu cầu chức năng, hoàn thiện prototype trên Figma, thiết lập cấu trúc dự án Android trên Git.
+    \item \textbf{Sprint 2: Xây dựng giao diện (UI) \& Điều hướng:} Hiện thực hóa toàn bộ các Screen và Custom Component bằng Jetpack Compose, thiết lập điều hướng tập trung với AppNavHost và AppRoute.
+    \item \textbf{Sprint 3: Xây dựng tầng Logic \& Dữ liệu:} Xây dựng các Data Models, Data Repository (PetRepository), các ViewModel (AuthViewModel, HomeViewModel, HealthViewModel, CalendarViewModel, MapViewModel,\dots).
+    \item \textbf{Sprint 4: Tích hợp Đám mây \& Bản đồ:} Tích hợp Firebase Authentication, Cloud Firestore Real-time Listener, Google Maps Compose SDK và GPS Location Provider.
+    \item \textbf{Sprint 5: Kiểm thử, Tối ưu \& Đóng gói:} Kiểm thử hệ thống, xử lý lỗi ngoại lệ, tối ưu hóa hiệu năng và đóng gói ứng dụng.
+\end{itemize}
+
+\subsection*{6.4. Công cụ và công nghệ sử dụng}
+
+\begin{table}[H]
+    \caption{Bảng công cụ và công nghệ sử dụng trong đề tài}
+    \label{tab:cong_cu_cong_nghe}
+    \centering
+    \renewcommand{\arraystretch}{1.2}
+    \begin{tabular}{|l|p{9cm}|}
+        \hline
+        \textbf{Thành phần} & \textbf{Công nghệ / Công cụ sử dụng} \\ \hline
+        Môi trường phát triển (IDE) & Android Studio (phiên bản mới nhất) \\ \hline
+        Ngôn ngữ lập trình & Kotlin (với Coroutines và StateFlow/SharedFlow) \\ \hline
+        Công nghệ giao diện (UI) & Jetpack Compose, Material Design 3, Compose Material Icons Extended \\ \hline
+        Kiến trúc phần mềm & MVVM (Model -- View -- ViewModel) + Repository Pattern \\ \hline
+        Quản lý điều hướng & AndroidX Navigation Compose \\ \hline
+        Dịch vụ Đám mây (BaaS) & Google Firebase (Authentication, Cloud Firestore) \\ \hline
+        Định vị \& Bản đồ & Google Play Services Maps, Maps Compose, FusedLocationProviderClient \\ \hline
+        Thiết kế đồ họa \& Prototype & Figma \\ \hline
+        Quản lý mã nguồn & Git \& GitHub (Repository: xinbato/PetCareApp) \\ \hline
+    \end{tabular}
+    \source{Nhóm tác giả tổng hợp}
+\end{table}
+
+\subsection*{6.5. Phương pháp kiểm thử và đánh giá}
+\begin{itemize}
+    \item \textbf{Kiểm thử chức năng (Functional Testing):} Thực hiện kiểm thử toàn bộ các ca kiểm thử (Test Cases) từ đăng nhập, quản lý hồ sơ, thêm/sửa/xóa lịch tiêm, cập nhật đơn thuốc đến tìm kiếm cơ sở thú y trên bản đồ.
+    \item \textbf{Kiểm thử trên thiết bị đa dạng:} Chạy thử nghiệm trên cả máy ảo (Android Emulator) với nhiều kích thước màn hình và thiết bị Android vật lý thực tế để kiểm tra tính tương thích và mượt mà của giao diện.
+    \item \textbf{Kiểm thử ngoại lệ:} Đánh giá phản ứng của ứng dụng trong các điều kiện thực tế bất lợi như mất kết nối Internet, người dùng từ chối cấp quyền truy cập vị trí GPS, nhập liệu dữ liệu rỗng hoặc sai định dạng.
+\end{itemize}

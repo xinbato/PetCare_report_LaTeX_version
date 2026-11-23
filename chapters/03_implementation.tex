@@ -1,0 +1,144 @@
+% ================= CHƯƠNG 3: TRIỂN KHAI =================
+\chapter{TRIỂN KHAI HỆ THỐNG}
+\label{chap:trien_khai}
+
+\section{Thiết kế hệ thống chi tiết và giải pháp công nghệ}
+\label{sec:thiet_ke_chi_tiet}
+
+\subsection{Công nghệ và kỹ thuật áp dụng ở Frontend Mobile}
+\label{subsec:cong_nghe_frontend}
+
+Toàn bộ ứng dụng PetCareApp được lập trình bằng ngôn ngữ **Kotlin** trên nền tảng **Android Native**, tận dụng tối đa các thư viện hiện đại thuộc bộ giải pháp Android Jetpack của Google:
+
+\begin{enumerate}
+    \item \textbf{Jetpack Compose \& Material Design 3:}
+    Toàn bộ cây giao diện (UI Tree) được xây dựng theo mô hình Declarative UI. Nhóm phát triển không sử dụng bất kỳ tệp XML layout nào, giúp mã nguồn trở nên đồng nhất, dễ đọc và dễ bảo trì. Giao diện áp dụng bộ màu sắc và kiểu chữ hiện đại của hệ thống Material You: màu chủ đạo xanh lá thiên nhiên (\texttt{0xFF338C63}) biểu trưng cho sự sống và sức khỏe của vật nuôi, kết hợp với các thẻ nền bo cong mềm mại (\texttt{RoundedCornerShape(16.dp)}).
+
+    \item \textbf{Quản lý điều hướng tập trung với Navigation Compose:}
+    Hệ thống phân tách luồng điều hướng thành hai tệp riêng biệt: \texttt{AppRoute.kt} (chứa các hằng số định danh route) và \texttt{AppNavHost.kt} (quản lý đồ thị chuyển trang \texttt{NavHost}). Việc quản lý tập trung giúp kiểm soát luồng di chuyển an toàn, truyền tham số tường minh và dễ dàng tái thiết lập ngăn xếp màn hình (Back Stack):
+
+\begin{lstlisting}[language=Java, caption={Đoạn mã cấu hình điều hướng trong AppNavHost.kt}, label={lst:navhost_snippet}]
+NavHost(
+    navController = navController,
+    startDestination = AppRoute.HOME
+) {
+    composable(AppRoute.HOME) { HomeScreen(navController) }
+    composable(AppRoute.HEALTH) { HealthScreen(navController) }
+    composable(AppRoute.CALENDAR) { CalendarScreen(navController) }
+    composable(AppRoute.MAP) { MapScreen(navController) }
+    composable(AppRoute.PROFILE) { ProfileScreen(navController) }
+    composable(AppRoute.ADD_PET_HANDMADE) { 
+        AddPetHandmadeScreen(navController) 
+    }
+}
+\end{lstlisting}
+
+    \item \textbf{Xử lý bất đồng bộ và Quản lý luồng dữ liệu (Coroutines \& StateFlow):}
+    Để tránh việc chặn luồng chính (Main Thread / UI Thread) gây hiện tượng treo ứng dụng (Application Not Responding -- ANR), mọi tác vụ tính toán, đọc dữ liệu từ bộ nhớ hoặc truy vấn mạng đều được đưa vào các khối Coroutines chạy trên bộ điều phối ngầm (\texttt{Dispatchers.IO}).
+    
+    Trạng thái của các màn hình được biểu diễn thông qua đối tượng \texttt{StateFlow}. Giao diện người dùng đăng ký lắng nghe thông qua hàm mở rộng \texttt{collectAsState()}, tự động vẽ lại chính xác các phần tử khi có sự thay đổi giá trị.
+\end{enumerate}
+
+\subsection{Công nghệ và kỹ thuật áp dụng ở Backend}
+\label{subsec:cong_nghe_backend}
+
+Hạ tầng Backend của hệ thống được xây dựng trên nền tảng đám mây Google Firebase:
+\begin{itemize}
+    \item \textbf{Google Sign-In với Credential Manager:} Thay thế thư viện GoogleSignInClient cũ đã bị Google ngừng phát triển, ứng dụng tích hợp \texttt{androidx.credentials.CredentialManager}. Giải pháp mới này đem lại trải nghiệm đăng nhập sinh trắc học và một chạm nhanh chóng, đồng thời hỗ trợ đồng bộ mật khẩu qua Google Password Manager.
+    \item \textbf{Firebase Authentication State Listener:} \texttt{PetRepository} thiết lập cơ chế tự động theo dõi phiên làm việc của người dùng (\texttt{auth.addAuthStateListener}). Khi người dùng đăng xuất hoặc hết hạn phiên, trạng thái tài khoản sẽ tự động xóa bộ nhớ đệm và chuyển hướng về màn hình đăng nhập.
+    \item \textbf{Lắng nghe biến động dữ liệu thời gian thực (Real-time Snapshot):} Ứng dụng đăng ký các bộ lắng nghe sự kiện trên Collection \texttt{pets} và \texttt{schedules}. Khi một thành viên trong gia đình thêm hoặc sửa đổi dữ liệu từ thiết bị khác, dữ liệu trên máy người dùng sẽ được cập nhật đồng thời mà không cần vuốt màn hình để làm mới (Pull-to-refresh).
+\end{itemize}
+
+\subsection{Tổ chức cơ sở dữ liệu Cloud Firestore}
+\label{subsec:csdl_su_dung}
+
+Cơ sở dữ liệu được tổ chức theo kiến trúc tập trung phân cấp:
+\begin{itemize}
+    \item Mỗi tài liệu trong collection \texttt{pets} nắm giữ các thông số nhận dạng duy nhất, gắn liền với định danh người sở hữu (\texttt{userId}).
+    \item Các collection con như \texttt{vaccinations}, \texttt{medications}, \texttt{schedules} đều chứa trường khóa ngoại \texttt{petId}. Nhờ đó, ứng dụng có thể thực hiện truy vấn lọc theo điều kiện cực kỳ nhanh:
+    \begin{lstlisting}[language=Java, caption={Đoạn truy vấn lọc dữ liệu theo petId trong Firestore}, label={lst:firestore_query}]
+firestore.collection("vaccinations")
+    .whereEqualTo("petId", currentSelectedPetId)
+    .orderBy("dateTime", Query.Direction.DESCENDING)
+    .addSnapshotListener { snapshot, error -> ... }
+    \end{lstlisting}
+    \item Các chỉ mục tổng hợp (Composite Indexes) được đánh dấu trên cặp trường \texttt{(petId, dateTime)} và \texttt{(category, distance)} giúp tối ưu thời gian truy vấn dưới 50ms ngay cả khi dữ liệu tăng trưởng lớn.
+\end{itemize}
+
+\section{Quy trình thực hiện dự án theo mô hình Agile/Scrum}
+\label{sec:quy_trinh_thuc_hien}
+
+Nhóm đề tài áp dụng phương pháp phát triển phần mềm linh hoạt (Agile) theo khung làm việc Scrum, chia nhỏ toàn bộ khối lượng công việc thành 5 Sprint kế tiếp nhau:
+
+\begin{enumerate}
+    \item \textbf{Sprint 1: Phân tích nghiệp vụ và Thiết kế giao diện (Tuần 1 -- 2):}
+    \begin{itemize}
+        \item Khảo sát nhu cầu thực tế của người nuôi thú cưng tại TP.HCM.
+        \item Thiết kế hoàn thiện bộ Prototype gồm 41 màn hình và 161 luồng liên kết tương tác trên công cụ Figma.
+        \item Khởi tạo cấu trúc dự án Android Studio, cấu hình hệ thống build Gradle bản mới nhất và kết nối Git Repository.
+    \end{itemize}
+
+    \item \textbf{Sprint 2: Hiện thực hóa giao diện người dùng và Điều hướng (Tuần 3 -- 4):}
+    \begin{itemize}
+        \item Xây dựng các Composable UI dùng chung (\texttt{PetCareTextField}, \texttt{PetCareTabBar}, \texttt{PetCareTopAppBar}).
+        \item Lập trình toàn bộ 15 màn hình chính: Luồng xác thực (Login, Register, Forgot Password, OTP), Màn hình chính (Home), Sức khỏe (Health), Lịch trình (Calendar), Bản đồ (Map), Hồ sơ cá nhân (Profile).
+        \item Cấu hình luồng điều hướng tập trung qua \texttt{AppNavHost}.
+    \end{itemize}
+
+    \item \textbf{Sprint 3: Xây dựng tầng Logic và Mô hình dữ liệu (Tuần 5 -- 6):}
+    \begin{itemize}
+        \item Khởi tạo các Data Class trong \texttt{PetModels.kt}.
+        \item Xây dựng kho lưu trữ trung tâm \texttt{PetRepository} quản lý luồng dữ liệu \texttt{MutableStateFlow}.
+        \item Cài đặt các lớp ViewModel (\texttt{HomeViewModel}, \texttt{HealthViewModel}, \texttt{CalendarViewModel}, \texttt{MapViewModel}) để tiếp nhận tương tác từ UI và chuyển giao dữ liệu.
+    \end{itemize}
+
+    \item \textbf{Sprint 4: Tích hợp Đám mây Firebase và Bản đồ Google Maps (Tuần 7 -- 8):}
+    \begin{itemize}
+        \item Kết nối Firebase SDK (Authentication, Cloud Firestore).
+        \item Tích hợp Google Maps Platform SDK (Maps Compose) và bộ cung cấp vị trí kết hợp \texttt{FusedLocationProviderClient}.
+        \item Xử lý xin cấp quyền động thời gian thực (Runtime Permissions: \texttt{ACCESS\_FINE\_LOCATION}).
+    \end{itemize}
+
+    \item \textbf{Sprint 5: Kiểm thử, Tối ưu hóa hiệu năng và Đóng gói (Tuần 9 -- 10):}
+    \begin{itemize}
+        \item Thực hiện kiểm thử hộp đen (Black-box Testing) trên các tình huống thực tế.
+        \item Kiểm tra và khắc phục lỗi rò rỉ bộ nhớ, xử lý ngoại lệ mất kết nối mạng.
+        \item Tối ưu hóa dung lượng APK bằng R8/Proguard và hoàn thiện báo cáo khoa học.
+    \end{itemize}
+\end{enumerate}
+
+\section{Quản lý tiến độ và Quản lý mã nguồn}
+\label{sec:quan_ly_tien_do}
+
+Dự án được quản lý phiên bản mã nguồn chặt chẽ trên nền tảng GitHub:
+\begin{itemize}
+    \item \textbf{Kho lưu trữ chính thức:} \url{https://github.com/xinbato/PetCareApp}.
+    \item \textbf{Quy trình Git Flow:} Nhánh \texttt{main} luôn phản ánh trạng thái ổn định nhất của ứng dụng; các tính năng mới được phát triển độc lập trên các nhánh nhánh tính năng (\texttt{feature/auth}, \texttt{feature/health}, \texttt{feature/map}).
+    \item \textbf{Kiểm duyệt mã nguồn (Code Review):} Mọi đóng góp mã nguồn đều phải thông qua Pull Request, bảo đảm ít nhất một thành viên khác trong nhóm xem xét, chạy kiểm thử cục bộ trước khi hòa trộn (merge) vào nhánh chính.
+\end{itemize}
+
+\section{Nhận diện rủi ro và Phương án xử lý}
+\label{sec:quan_ly_rui_ro}
+
+Trong quá trình triển khai, nhóm đã dự liệu và xây dựng các giải pháp khắc phục các sự cố kỹ thuật tiềm ẩn:
+
+\begin{table}[H]
+    \caption{Bảng nhận diện rủi ro và biện pháp xử lý trong dự án PetCareApp}
+    \label{tab:bang_rui_ro}
+    \centering
+    \renewcommand{\arraystretch}{1.2}
+    \begin{tabularx}{\textwidth}{|l|X|X|}
+        \hline
+        \textbf{Phân loại rủi ro} & \textbf{Hiện tượng tiềm ẩn} & \textbf{Biện pháp khắc phục} \\ \hline
+        Kết nối mạng & Mất mạng Internet đột ngột khi người dùng đang cập nhật dữ liệu tiêm chủng/thuốc. & Kích hoạt chế độ lưu đệm ngoại tuyến (Offline Persistence) của Cloud Firestore; dữ liệu tự động đồng bộ khi có kết nối lại. \\ \hline
+        Quyền riêng tư & Người dùng từ chối cấp quyền truy cập vị trí GPS chính xác. & Hiển thị thông báo giải thích thân thiện, tự động lấy tọa độ mặc định tại trung tâm TP.HCM để người dùng vẫn sử dụng được bản đồ. \\ \hline
+        Hiệu năng render & Rò rỉ bộ nhớ hoặc vẽ lại quá nhiều (Over-recomposition) trong danh sách cuộn dài. & Sử dụng \texttt{LazyColumn} với khóa định danh duy nhất (\texttt{key = \{ item.id \}}), ghi nhớ các hàm gọi lại bằng \texttt{remember}. \\ \hline
+        Xung đột dữ liệu & Nhiều thiết bị cùng sửa đổi hồ sơ một thú cưng tại một thời điểm. & Sử dụng cơ chế ghi theo đợt (\texttt{batch.commit()}) hoặc giao dịch (\texttt{runTransaction}) của Firestore để bảo đảm tính nhất quán ACID. \\ \hline
+    \end{tabularx}
+    \source{Nhóm tác giả tổng hợp}
+\end{table}
+
+\section{Kết quả dự kiến của giai đoạn triển khai}
+\label{sec:ket_qua_du_kien}
+
+Giai đoạn triển khai hướng tới hoàn thiện một ứng dụng Native chạy hoàn chỉnh trên các thiết bị Android thực tế, đáp ứng đầy đủ 5 nhóm chức năng nghiệp vụ, đạt độ tin cậy cao, dữ liệu được đồng bộ hóa tức thời qua đám mây và giao diện phản ánh chính xác thiết kế trực quan ban đầu.

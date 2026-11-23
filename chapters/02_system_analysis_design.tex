@@ -1,0 +1,216 @@
+% ================= CHƯƠNG 2: PHÂN TÍCH THIẾT KẾ YÊU CẦU HỆ THỐNG =================
+\chapter{PHÂN TÍCH THIẾT KẾ YÊU CẦU HỆ THỐNG}
+\label{chap:phan_tich_thiet_ke}
+
+\section{Định hướng phát triển hệ thống}
+\label{sec:dinh_huong}
+
+Hệ thống PetCareApp được định hướng trở thành giải pháp di động toàn diện, khép kín dành cho người nuôi thú cưng tại Việt Nam. Không dừng lại ở việc số hóa các cuốn sổ theo dõi y tế bằng giấy truyền thống, hệ thống hướng tới trải nghiệm người dùng liền mạch (User-Centric Experience), kết hợp hài hòa giữa việc quản lý thể trạng cá nhân hóa, tự động nhắc nhở lịch trình chăm sóc và cung cấp tiện ích định vị bản đồ số giúp tiếp cận nhanh chóng các cơ sở thú y lân cận.
+
+\section{Yêu cầu chức năng hệ thống}
+\label{sec:yeu_cau_chuc_nang}
+
+\subsection{Chi tiết các nhóm chức năng nghiệp vụ}
+\label{subsec:nhom_chuc_nang}
+
+Căn cứ vào bộ đặc tả chức năng và cấu trúc màn hình thực tế của ứng dụng, hệ thống được phân chia thành 5 phân hệ nghiệp vụ trọng tâm:
+
+\begin{enumerate}
+    \item \textbf{Phân hệ Xác thực và Quản lý Người dùng (Authentication \& Accounts):}
+    \begin{itemize}
+        \item \textbf{Màn hình giới thiệu (Onboarding):} Giới thiệu các tính năng chủ đạo của ứng dụng qua chuỗi slide trực quan, điều hướng người dùng tới bước đăng nhập hoặc đăng ký.
+        \item \textbf{Đăng ký tài khoản mới:} Cho phép người dùng tạo tài khoản bằng địa chỉ email và mật khẩu. Hệ thống kiểm tra tính hợp lệ của định dạng email, độ dài mật khẩu tối thiểu (6 ký tự) và xác nhận mật khẩu trùng khớp.
+        \item \textbf{Đăng nhập đa phương thức:} Hỗ trợ đăng nhập truyền thống bằng email/mật khẩu và đăng nhập nhanh bằng Google Sign-In thông qua cơ chế Credential Manager của AndroidX.
+        \item \textbf{Quy trình khôi phục mật khẩu:} Gồm 3 bước liên hoàn: Nhập email nhận mã xác nhận (\texttt{ForgotPasswordScreen}) $\rightarrow$ Nhập mã OTP 6 số kiểm tra tính hợp lệ (\texttt{OtpVerificationScreen}) $\rightarrow$ Thiết lập mật khẩu mới an toàn (\texttt{ResetPasswordScreen}).
+        \item \textbf{Quản lý đa tài khoản và hồ sơ:} Cho phép cập nhật thông tin cá nhân (họ tên, số điện thoại, ngày sinh, địa chỉ, ảnh đại diện) và hỗ trợ tính năng chuyển đổi nhanh giữa các tài khoản người dùng (\texttt{AccountUser}) trong cùng một thiết bị.
+    \end{itemize}
+
+    \item \textbf{Phân hệ Quản lý Hồ sơ Thú cưng (Pet Profile Management):}
+    \begin{itemize}
+        \item \textbf{Thêm mới thú cưng thủ công:} Cung cấp biểu mẫu chi tiết cho phép nhập tên, loài (chó, mèo, thỏ,...), giống loài cụ thể, ngày sinh, giới tính (đực/cái), cân nặng ban đầu và chọn ảnh đại diện.
+        \item \textbf{Thêm mới qua Camera / Thư viện ảnh:} Tích hợp quyền truy cập camera và thư viện ảnh của thiết bị để chụp hình trực tiếp thẻ thông tin thú cưng hoặc nhận diện ảnh chân dung của thú cưng.
+        \item \textbf{Danh sách và Chuyển đổi thú cưng hoạt động:} Người dùng có thể nuôi nhiều thú cưng; ứng dụng hỗ trợ danh sách dạng thẻ ngang trực quan giúp chuyển đổi thú cưng đang hoạt động chỉ với một thao tác chạm. Mọi chỉ số ở màn hình chính và màn hình sức khỏe sẽ tự động cập nhật theo thú cưng được chọn.
+        \item \textbf{Chỉnh sửa và Quản lý hồ sơ:} Hỗ trợ cập nhật các thông số thể trạng mới nhất hoặc xóa hồ sơ khi không còn nhu cầu quản lý.
+    \end{itemize}
+
+    \item \textbf{Phân hệ Sổ Sức khỏe Điện tử (Health Management):}
+    \begin{itemize}
+        \item \textbf{Sổ tiêm chủng (Vaccination):} Quản lý lịch sử tiêm phòng vắc-xin gồm tên loại vắc-xin (ví dụ: Dại, 7 bệnh cho chó, 4 bệnh cho mèo), ngày tiêm, ngày đến hạn mũi nhắc lại tiếp theo và trạng thái mũi tiêm (``Đã tiêm'' hoặc ``Nhắc lại''). Hỗ trợ biểu mẫu thêm mới mũi tiêm tiện lợi.
+        \item \textbf{Quản lý thuốc điều trị (Medication):} Ghi nhận đơn thuốc theo toa của bác sĩ thú y gồm tên thuốc, liều lượng dùng trong mỗi lần, khung giờ uống trong ngày (sáng/trưa/tối), tổng số lượng viên thuốc còn lại và trạng thái điều trị (``Đang dùng'' hoặc ``Đã hoàn thành'').
+        \item \textbf{Nhật ký bệnh án và biểu hiện lâm sàng (Medical Record Book):} Ghi chép chi tiết các đợt khám bệnh bất thường, triệu chứng bệnh lý, tâm trạng của thú cưng, kèm khả năng đính kèm hình ảnh kết quả xét nghiệm, đơn thuốc hoặc hóa đơn viện phí.
+        \item \textbf{Lịch sử biến động thể trạng (Weight \& Checkup History):} Lưu trữ chuỗi số liệu cân nặng theo từng mốc thời gian để vẽ đồ thị theo dõi đà tăng trưởng; đồng thời lưu trữ lịch sử các lần kiểm tra sức khỏe tổng quát định kỳ tại phòng khám thú y.
+    \end{itemize}
+
+    \item \textbf{Phân hệ Lịch trình và Nhắc nhở (Calendar \& Task Scheduling):}
+    \begin{itemize}
+        \item \textbf{Xem lịch thông minh theo ngày:} Giao diện chọn ngày dạng dải ngang trực quan kết hợp biểu đồ trạng thái hoàn thành công việc của từng ngày trong tuần.
+        \item \textbf{Phân loại sự kiện đa dạng:} Cho phép lên lịch các tác vụ chăm sóc thiết yếu: Khám bệnh, Tiêm phòng, Uống thuốc, Tắm rửa/Spa, Vệ sinh và Giờ ăn uống.
+        \item \textbf{Đánh dấu hoàn thành (Todo Check):} Người dùng có thể đánh dấu hoàn thành nhanh chóng ngay trên giao diện danh sách, hệ thống tự động gạch bỏ công việc và cập nhật tiến độ trong ngày.
+    \end{itemize}
+
+    \item \textbf{Phân hệ Bản đồ và Dịch vụ Thú y Lân cận (Location-Based Services):}
+    \begin{itemize}
+        \item \textbf{Tích hợp bản đồ số Google Maps:} Hiển thị trực quan bản đồ với con trỏ vị trí thực tế của người dùng và các điểm ghim (markers) cơ sở dịch vụ thú cưng xung quanh.
+        \item \textbf{Bộ lọc theo danh mục:} Hỗ trợ chuyển đổi nhanh giữa các nhóm địa điểm: Phòng khám Thú y, Spa làm đẹp và Cửa hàng phụ kiện/thức ăn thú cưng (Pet Shop).
+        \item \textbf{Thẻ thông tin chi tiết địa điểm:} Khi chọn một địa điểm, ứng dụng hiển thị khoảng cách tính theo km, thời gian di chuyển ước tính, số điện thoại liên hệ, điểm đánh giá của cộng đồng (rating sao) và trạng thái đóng/mở cửa.
+        \item \textbf{Lưu cơ sở yêu thích:} Cho phép đánh dấu ghim yêu thích các cơ sở tin cậy để truy xuất nhanh khi xảy ra sự cố sức khỏe khẩn cấp cho thú cưng.
+    \end{itemize}
+\end{enumerate}
+
+\section{Yêu cầu phi chức năng}
+\label{sec:yeu_cau_phi_chuc_nang}
+
+Nhằm đảm bảo sản phẩm đáp ứng đầy đủ các tiêu chuẩn kỹ thuật khi đưa vào vận hành thực tế, nhóm đề tài xác lập các chỉ tiêu phi chức năng cụ thể sau:
+
+\subsection{Độ mượt mà và hiệu năng hiển thị (UI Performance)}
+Giao diện ứng dụng phải duy trì tốc độ dựng khung hình ổn định ở mức 60 khung hình/giây (FPS). Cơ chế vẽ lại (Recomposition) của Jetpack Compose được kiểm soát nghiêm ngặt bằng việc sử dụng các cấu trúc dữ liệu bất biến (Immutable data structures) và cờ trạng thái ổn định, loại bỏ hoàn toàn các lần render thừa thãi gây giật khung hình. Thời gian phản hồi từ khi người dùng nhấn nút chuyển trang đến khi màn hình xuất hiện không vượt quá 200ms.
+
+\subsection{Tính an toàn và bảo mật dữ liệu (Security)}
+\begin{itemize}
+    \item Xác thực tài khoản dựa trên token ký số an toàn JWT do Firebase cung cấp. Mật khẩu không bao giờ được lưu trữ dưới dạng bản rõ (plaintext).
+    \item Tích hợp cơ chế xác thực vân tay/khuôn mặt hoặc mã OTP khi thực hiện thao tác khôi phục tài khoản nhạy cảm.
+    \item Toàn bộ các kênh truyền mạng đều bắt buộc mã hóa qua giao thức HTTPS (TLS 1.3).
+    \item Cấu hình Firestore Security Rules ở cấp độ phân quyền người dùng: một tài khoản chỉ có thể truy xuất và chỉnh sửa các bản ghi thú cưng thuộc sở hữu của chính tài khoản đó (\texttt{request.auth.uid == resource.data.userId}).
+\end{itemize}
+
+\subsection{Tính module hóa và tái sử dụng mã nguồn (Reusability)}
+Toàn bộ các thành phần giao diện dùng chung được thiết kế thành các Composable Component độc lập đặt tại gói \texttt{ui.components}, bao gồm:
+\begin{itemize}
+    \item \texttt{PetCareTextField}: Ô nhập văn bản chuẩn hóa, hỗ trợ hiển thị icon đầu/cuối, nhãn lỗi và định dạng mật khẩu.
+    \item \texttt{PetCareTabBar}: Thanh chuyển đổi phân đoạn giao diện có hoạt ảnh trượt mượt mà.
+    \item \texttt{PetCareTopAppBar}: Thanh điều hướng chuẩn Material 3 hỗ trợ nút quay lại và tiêu đề căn giữa.
+    \item \texttt{SocialLoginSection}: Khối nút liên kết đăng nhập một chạm qua Google.
+\end{itemize}
+
+\subsection{Tối ưu hóa dung lượng lưu trữ (Storage Efficiency)}
+Kích thước tệp cài đặt APK phát hành (Release APK) được tối ưu hóa dưới 30MB thông qua công cụ thu gọn mã R8/Proguard. Trước khi tải hình ảnh thú cưng lên Firebase Storage, ứng dụng thực hiện nén kích thước ảnh (độ phân giải tối đa 1024x1024 pixel, định dạng JPEG chất lượng 80\%) nhằm tiết kiệm tối đa dung lượng lưu trữ đám mây và giảm thời gian tải ảnh cho người dùng.
+
+\subsection{Tính tương thích thiết bị (Compatibility)}
+Ứng dụng hỗ trợ tối thiểu từ phiên bản Android 7.0 (Nougat, API Level 24) đến phiên bản Android mới nhất là Android 14 (Upside Down Cake, API Level 34), bao phủ hơn 95\% thiết bị Android đang lưu hành trên thị trường. Bố cục giao diện được thiết kế thích ứng (Responsive Layout) với nhiều tỷ lệ màn hình khác nhau từ 16:9 đến 20:9.
+
+\section{Thiết kế cơ sở dữ liệu chi tiết}
+\label{sec:thiet_ke_csdl}
+
+Dựa trên cấu trúc thực tế của lớp \texttt{PetRepository} và các Data Models trong mã nguồn Kotlin, cơ sở dữ liệu NoSQL Cloud Firestore được cấu trúc thành các Collection cụ thể với các trường dữ liệu và ràng buộc được chuẩn hóa trong Bảng~\ref{tab:csdl_petcare}.
+
+\begin{table}[H]
+    \caption{Đặc tả cấu trúc các thực thể dữ liệu trong cơ sở dữ liệu Cloud Firestore}
+    \label{tab:csdl_petcare}
+    \centering
+    \renewcommand{\arraystretch}{1.15}
+    \fontsize{10}{12}\selectfont
+    \begin{tabularx}{\textwidth}{|l|l|l|X|}
+        \hline
+        \textbf{Collection} & \textbf{Trường (Field)} & \textbf{Kiểu dữ liệu} & \textbf{Diễn giải và Ràng buộc} \\ \hline
+        \multirow{5}{*}{\texttt{users}} 
+        & \texttt{id} & String & Khóa chính, khớp với Firebase Auth UID. \\ \cline{2-4}
+        & \texttt{name} & String & Tên hiển thị người dùng (không rỗng). \\ \cline{2-4}
+        & \texttt{email} & String & Địa chỉ thư điện tử đăng nhập duy nhất. \\ \cline{2-4}
+        & \texttt{phone} & String & Số điện thoại liên hệ cá nhân. \\ \cline{2-4}
+        & \texttt{address} & String & Địa chỉ nơi cư trú của chủ nuôi. \\ \hline
+        
+        \multirow{8}{*}{\texttt{pets}} 
+        & \texttt{id} & String & Khóa chính định danh thú cưng. \\ \cline{2-4}
+        & \texttt{userId} & String & Khóa ngoại liên kết tới người sở hữu. \\ \cline{2-4}
+        & \texttt{name} & String & Tên thú cưng (ví dụ: Momo, Lu). \\ \cline{2-4}
+        & \texttt{species} & String & Loài: Chó, Mèo, Chim, Thỏ,... \\ \cline{2-4}
+        & \texttt{breed} & String & Giống cụ thể (Corgi, Poodle,...). \\ \cline{2-4}
+        & \texttt{dob} & String & Ngày sinh (định dạng dd/MM/yyyy). \\ \cline{2-4}
+        & \texttt{weight} & String & Cân nặng hiện tại kèm đơn vị (kg). \\ \cline{2-4}
+        & \texttt{gender} & String & Giới tính: ``Đực'' hoặc ``Cái''. \\ \hline
+
+        \multirow{5}{*}{\texttt{vaccinations}}
+        & \texttt{id} & String & Khóa chính bản ghi tiêm phòng. \\ \cline{2-4}
+        & \texttt{petId} & String & Khóa ngoại tham chiếu đến thú cưng. \\ \cline{2-4}
+        & \texttt{title} & String & Tên vắc-xin tiêm chủng (Dại, 7 bệnh). \\ \cline{2-4}
+        & \texttt{dateTime} & String & Ngày thực hiện tiêm chủng thực tế. \\ \cline{2-4}
+        & \texttt{status} & String & Trạng thái: ``Đã tiêm'' hoặc ``Nhắc lại''. \\ \hline
+
+        \multirow{6}{*}{\texttt{medications}}
+        & \texttt{id} & String & Khóa chính của loại thuốc theo dõi. \\ \cline{2-4}
+        & \texttt{petId} & String & Khóa ngoại tham chiếu thú cưng. \\ \cline{2-4}
+        & \texttt{name} & String & Tên biệt dược hoặc tên thuốc điều trị. \\ \cline{2-4}
+        & \texttt{dosage} & String & Liều lượng dùng (ví dụ: 1 viên, 5ml). \\ \cline{2-4}
+        & \texttt{scheduleTime} & String & Khung giờ uống trong ngày (ví dụ: 08:00). \\ \cline{2-4}
+        & \texttt{quantity} & String & Số lượng còn lại trong lọ/vỉ. \\ \hline
+
+        \multirow{5}{*}{\texttt{schedules}}
+        & \texttt{id} & String & Khóa chính lịch hẹn nhắc việc. \\ \cline{2-4}
+        & \texttt{petId} & String & Khóa ngoại tham chiếu thú cưng. \\ \cline{2-4}
+        & \texttt{title} & String & Tên công việc (Khám, Tắm, Tiêm, Ăn). \\ \cline{2-4}
+        & \texttt{dateText} & String & Ngày thực hiện dự kiến. \\ \cline{2-4}
+        & \texttt{isCompleted} & Boolean & Cờ trạng thái: Đã xong (true) / Chưa xong. \\ \hline
+
+        \multirow{6}{*}{\texttt{pet\_places}}
+        & \texttt{id} & String & Khóa chính cơ sở dịch vụ thú y. \\ \cline{2-4}
+        & \texttt{name} & String & Tên phòng khám hoặc cửa hàng spa. \\ \cline{2-4}
+        & \texttt{category} & String & Phân loại: ``Thú y'', ``Spa'', ``Cửa hàng''. \\ \cline{2-4}
+        & \texttt{lat}, \texttt{lng} & Double & Tọa độ vĩ độ và kinh độ trên bản đồ. \\ \cline{2-4}
+        & \texttt{phone} & String & Đường dây nóng liên hệ khi khẩn cấp. \\ \cline{2-4}
+        & \texttt{rating} & String & Điểm đánh giá trung bình của cơ sở. \\ \hline
+    \end{tabularx}
+    \source{Nhóm tác giả tổng hợp từ mã nguồn PetRepository.kt}
+\end{table}
+
+\section{Thiết kế thuật toán nghiệp vụ}
+\label{sec:thiet_ke_thuat_toan}
+
+\subsection{Thuật toán tính khoảng cách địa lý (Haversine Formula)}
+Để phục vụ tính năng tìm kiếm phòng khám gần nhất trên màn hình bản đồ (\texttt{MapScreen}), ứng dụng sử dụng công thức lượng giác Haversine để tính khoảng cách đường thẳng theo độ cong mặt cầu của Trái Đất giữa tọa độ người dùng $A(\varphi_1, \lambda_1)$ và tọa độ cơ sở dịch vụ $B(\varphi_2, \lambda_2)$:
+
+\begin{equation}
+    a = \sin^2\left(\frac{\Delta \varphi}{2}\right) + \cos(\varphi_1) \cdot \cos(\varphi_2) \cdot \sin^2\left(\frac{\Delta \lambda}{2}\right)
+\end{equation}
+\begin{equation}
+    c = 2 \cdot \text{atan2}\left(\sqrt{a}, \sqrt{1 - a}\right)
+\end{equation}
+\begin{equation}
+    d = R \cdot c
+\end{equation}
+
+Trong đó:
+\begin{itemize}
+    \item $\varphi_1, \varphi_2$ là vĩ độ của điểm A và điểm B (đơn vị Radian).
+    \item $\lambda_1, \lambda_2$ là kinh độ của điểm A và điểm B (đơn vị Radian).
+    \item $\Delta \varphi = \varphi_2 - \varphi_1$ và $\Delta \lambda = \lambda_2 - \lambda_1$.
+    \item $R = 6.371\text{ km}$ là bán kính danh định trung bình của Trái Đất.
+    \item $d$ là khoảng cách mặt cầu thực tế giữa hai điểm (đơn vị km).
+\end{itemize}
+
+Sau khi tính toán, khoảng cách $d$ được ánh xạ thành chuỗi văn bản thân thiện (ví dụ: ``1.2 km'') và dùng làm tiêu chí sắp xếp tăng dần trong danh sách hiển thị của \texttt{MapViewModel}.
+
+\subsection{Thuật toán kiểm tra và chuẩn hóa dữ liệu đầu vào (Input Validation)}
+Lớp tiện ích \texttt{InputTypeUtils} sử dụng các biểu thức chính quy (Regular Expressions) để kiểm soát dữ liệu người dùng nhập vào biểu mẫu đăng ký và quản lý thú cưng:
+\begin{itemize}
+    \item \textbf{Kiểm tra Email:} Biểu thức \texttt{\textasciicircum[A-Za-z0-9.\_\%+-]+@[A-Za-z0-9.-]+\textbackslash.[A-Za-z]\{2,6\}\$} bảo đảm người dùng nhập đúng định dạng hòm thư điện tử chuẩn RFC 5322.
+    \item \textbf{Kiểm tra Mật khẩu:} Bắt buộc độ dài tối thiểu 6 ký tự để bảo đảm tiêu chuẩn an toàn của Firebase Auth.
+    \item \textbf{Kiểm tra Số điện thoại:} Kiểm tra tiền tố mạng di động Việt Nam và độ dài 10 chữ số.
+\end{itemize}
+
+\section{Thiết kế luồng hoạt động (Workflow \& User Flow)}
+\label{sec:luong_hoat_dong}
+
+\subsection{Luồng xác thực và khởi tạo phiên làm việc}
+Khi người dùng mở ứng dụng:
+\begin{enumerate}
+    \item \texttt{MainActivity} khởi động và kích hoạt \texttt{AppNavHost}.
+    \item \texttt{PetRepository} thực hiện kiểm tra \texttt{auth.currentUser}:
+    \begin{itemize}
+        \item Nếu người dùng đã đăng nhập từ trước: Ứng dụng điều hướng ngay lập tức vào màn hình chính \texttt{AppScreen.Home.route}.
+        \item Nếu người dùng chưa đăng nhập: Điều hướng tới \texttt{AppScreen.Onboarding.route} hoặc \texttt{AppScreen.Login.route}.
+    \end{itemize}
+    \item Tại màn hình đăng nhập, người dùng có thể lựa chọn đăng nhập qua Email/Mật khẩu hoặc nhấn nút Google Sign-In. Khi xác thực Google thành công, hệ thống lấy ID Token gửi về Firebase để cấp chứng chỉ đăng nhập và đồng bộ thông tin hồ sơ người dùng.
+\end{enumerate}
+
+\subsection{Luồng quản lý sức khỏe và đồng bộ dữ liệu thời gian thực}
+\begin{enumerate}
+    \item Tại màn hình \texttt{HealthScreen}, người dùng chọn các danh mục con: Tiêm chủng, Thuốc, Bệnh án hoặc Cân nặng.
+    \item Khi người dùng thêm một mục mới (ví dụ: thêm mũi tiêm trong \texttt{AddNewVaccinationScreen}), Composable gọi phương thức \texttt{healthViewModel.addVaccination(item)}.
+    \item ViewModel gửi yêu cầu sang \texttt{PetRepository.addVaccination(item)}.
+    \item Tại Repository:
+    \begin{itemize}
+        \item Bản ghi mới được cập nhật vào danh sách cục bộ qua hàm \texttt{\_vaccinations.update \{ ... \}}. Trạng thái giao diện phản hồi tức thì mà không cần đợi phản hồi từ máy chủ (Optimistic Update).
+        \item Đồng thời, Repository kích hoạt tác vụ bất đồng bộ ghi tài liệu mới vào bộ sưu tập Firestore \texttt{vaccinations}.
+        \item Nếu có lỗi kết nối mạng xảy ra, Firestore SDK tự động lưu tác vụ vào hàng đợi ngoại tuyến và tự động đẩy lên máy chủ khi kết nối được tái lập.
+    \end{itemize}
+\end{enumerate}

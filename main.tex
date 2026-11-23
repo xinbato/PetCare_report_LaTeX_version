@@ -1,0 +1,85 @@
+% ==============================================================
+%  MAIN.TEX - Điểm khởi đầu dự án LaTeX Báo cáo Đồ án PetCareApp
+% ==============================================================
+
+% Tải cấu hình preamble (khai báo gói, font chữ, thông tin đề tài)
+\input{preamble}
+
+% ================= BẮT ĐẦU TÀI LIỆU =================
+\begin{document}
+
+% -------------------- 1. TRANG BÌA --------------------
+\input{frontmatter/titlepage}
+
+% ===== ĐÁNH SỐ LA MÃ (i, ii, iii...) CHO PHẦN ĐẦU =====
+\cleardoublepage
+\pagestyle{fancy}
+\fancyhf{}
+\fancyfoot[C]{\fontsize{10}{12}\selectfont\thepage}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+
+\fancypagestyle{plain}{
+    \fancyhf{}
+    \fancyfoot[C]{\fontsize{10}{12}\selectfont\thepage}
+    \renewcommand{\headrulewidth}{0pt}
+    \renewcommand{\footrulewidth}{0pt}
+}
+
+\pagenumbering{roman}
+\setcounter{page}{1}
+
+% -------------------- 2. CÁC TRANG ĐẦU --------------------
+\input{frontmatter/declaration}
+\input{frontmatter/acknowledgments}
+
+% -------------------- 3. MỤC LỤC & DANH MỤC --------------------
+\cleardoublepage
+\begingroup
+\singlespacing
+
+\tableofcontents
+
+\cleardoublepage
+\listoffigures
+\addcontentsline{toc}{chapter}{\listfigurename}
+
+\cleardoublepage
+\listoftables
+\addcontentsline{toc}{chapter}{\listtablename}
+
+\cleardoublepage
+\input{frontmatter/abbreviations}
+
+\endgroup
+
+% ================= 4. PHẦN NỘI DUNG CHÍNH (CÁC CHƯƠNG) =================
+\cleardoublepage
+
+% Đánh số Ả Rập (1, 2, 3...) từ Phần Mở Đầu trở đi
+\pagenumbering{arabic}
+\setcounter{page}{1}
+
+% Phần Mở đầu
+\input{chapters/00_introduction}
+
+% Các Chương nội dung
+\input{chapters/01_theoretical_background}
+\input{chapters/02_system_analysis_design}
+\input{chapters/03_implementation}
+\input{chapters/04_results_evaluation}
+\input{chapters/05_conclusion}
+
+% -------------------- 5. TÀI LIỆU THAM KHẢO --------------------
+\cleardoublepage
+\addcontentsline{toc}{chapter}{\bibname}
+\nocite{*}
+\bibliographystyle{ieeetr}
+\bibliography{refs}
+
+% -------------------- 6. PHỤ LỤC --------------------
+\cleardoublepage
+\appendix
+\input{appendices/appendix_a}
+
+\end{document}

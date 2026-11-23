@@ -1,0 +1,125 @@
+% ================= CHƯƠNG 1: CƠ SỞ LÝ THUYẾT =================
+\chapter{CƠ SỞ LÝ THUYẾT}
+\label{chap:co_so_ly_thuyet}
+
+\section{Định dạng dữ liệu}
+\label{sec:dinh_dang_du_lieu}
+
+Trong các hệ thống phân tán và ứng dụng di động hiện đại, việc lựa chọn chuẩn định dạng dữ liệu truyền tải quyết định trực tiếp đến dung lượng gói tin mạng, hiệu suất phân tích cú pháp (parsing) và thời lượng tiêu thụ pin của thiết bị.
+
+\subsection{Định dạng JSON trong lập trình Android}
+\label{subsec:dinh_dang_json}
+
+JSON (JavaScript Object Notation) là chuẩn trao đổi dữ liệu dạng văn bản gọn nhẹ, có cấu trúc phân cấp dựa trên hai thành phần cơ bản: tập hợp các cặp khóa -- giá trị (key-value) và danh sách các giá trị có thứ tự (mảng). So với định dạng XML truyền thống vốn chứa nhiều thẻ đóng mở trùng lặp làm gia tăng kích thước payload, JSON giúp giảm khoảng 30\% đến 40\% dung lượng truyền tải trên kênh mạng di động 3G/4G/5G.
+
+Trong hệ sinh thái Kotlin và Android, việc ánh xạ giữa chuỗi JSON và các đối tượng dữ liệu (Data Class) được thực thi hiệu quả thông qua cơ chế reflection hoặc sinh mã tại thời điểm biên dịch (compile-time code generation) bằng thư viện \texttt{kotlinx.serialization} hoặc Google Gson. Cấu trúc một bản tin dữ liệu thú cưng thể hiện rõ tính ngắn gọn, trực quan:
+
+\begin{lstlisting}[language=Java, caption={Ví dụ cấu trúc JSON ánh xạ đối tượng PetModel}, label={lst:json_example}]
+{
+  "id": "pet_001",
+  "name": "Momo",
+  "species": "Dog",
+  "breed": "Corgi",
+  "dob": "14/05/2023",
+  "weight": "12.4 kg",
+  "gender": "Male",
+  "isFavorite": true,
+  "statusText": "Healthy"
+}
+\end{lstlisting}
+
+\begin{table}[H]
+    \caption{So sánh đặc tính kỹ thuật giữa định dạng JSON và XML trên di động}
+    \label{tab:so_sanh_json_xml}
+    \centering
+    \renewcommand{\arraystretch}{1.2}
+    \begin{tabularx}{\textwidth}{|l|X|X|}
+        \hline
+        \textbf{Tiêu chí} & \textbf{JSON} & \textbf{XML} \\ \hline
+        Kích thước dữ liệu & Tối ưu, loại bỏ thẻ mở/đóng rườm rà. & Cồng kềnh do lặp lại tên thẻ. \\ \hline
+        Tốc độ phân tích & Phân tích nhanh, ít tốn CPU và RAM. & Chậm hơn do cây DOM phức tạp. \\ \hline
+        Khả năng đọc hiểu & Cực kỳ trực quan cho lập trình viên. & Trực quan nhưng rối mắt khi lồng nhau. \\ \hline
+        Hỗ trợ kiểu dữ liệu & Số, chuỗi, boolean, mảng, đối tượng, null. & Toàn bộ dữ liệu ban đầu là chuỗi. \\ \hline
+        Độ tương thích CSDL & Tương thích tự nhiên với NoSQL (Firestore). & Cần bước chuyển đổi trung gian. \\ \hline
+    \end{tabularx}
+    \source{Nhóm tác giả tổng hợp}
+\end{table}
+
+\subsection{Mô hình tài liệu trong Google Cloud Firestore}
+\label{subsec:mo_hinh_firestore}
+
+Cơ sở dữ liệu Google Cloud Firestore vận hành theo mô hình hướng tài liệu (Document-oriented NoSQL). Dữ liệu không lưu trữ dưới dạng các hàng và cột của bảng quan hệ (RDBMS) mà được tổ chức thành các tập hợp (\textit{Collections}) chứa các tài liệu (\textit{Documents}). Mỗi tài liệu chứa các trường dữ liệu mang kiểu nguyên thủy (chuỗi, số, cờ nhị phân), kiểu mốc thời gian (\texttt{Timestamp}), tọa độ địa lý (\texttt{GeoPoint}) hoặc các bản đồ lồng nhau (\texttt{Map}). Mô hình này cho phép PetCareApp lưu trữ hồ sơ tiêm chủng, đơn thuốc gắn liền với từng thú cưng mà không phải thực hiện các phép kết nối bảng (JOIN) phức tạp gây suy giảm hiệu năng truy vấn.
+
+\section{Giao thức mạng}
+\label{sec:giao_thuc}
+
+\subsection{Khái niệm giao thức truyền thông}
+\label{subsec:khai_niem_giao_thuc}
+
+Giao thức truyền thông mạng (Network Protocol) là tập hợp các chuẩn mực, quy tắc cú pháp và ngữ nghĩa quy định cách thức đóng gói, gửi, nhận và xác thực dữ liệu giữa các tiến trình hoạt động trên các nút mạng khác nhau trong mô hình TCP/IP. Giao thức bảo đảm thông tin được chuyển phát chính xác, có kiểm soát lỗi và quản lý tắc nghẽn đường truyền.
+
+\subsection{Giao thức trong giao tiếp Frontend -- Backend}
+\label{subsec:giao_thuc_frontend_backend}
+
+Ứng dụng PetCareApp giao tiếp với các dịch vụ đám mây (Google Firebase, Google Maps API) thông qua giao thức truyền siêu văn bản an toàn HTTPS (HyperText Transfer Protocol Secure), vận hành trên cổng 443 với lớp bảo mật tầng giao vận TLS 1.3 (Transport Layer Security).
+
+Mọi thông điệp trao đổi giữa ứng dụng di động và máy chủ đều tuân thủ các nguyên lý thiết kế RESTful (Representational State Transfer):
+\begin{itemize}
+    \item \textbf{Tính không lưu trạng thái (Stateless):} Mỗi yêu cầu từ ứng dụng di động gửi lên máy chủ đều mang đầy đủ thông tin xác thực (Firebase ID Token trong tiêu đề \texttt{Authorization: Bearer <token>}), máy chủ không duy trì phiên làm việc trong bộ nhớ tạm.
+    \item \textbf{Sử dụng đúng các phương thức chuẩn HTTP:} \texttt{GET} để truy xuất dữ liệu danh sách thú cưng và phòng khám; \texttt{POST} để khởi tạo tài khoản, thêm mới lịch hẹn hoặc bệnh án; \texttt{PUT/PATCH} để cập nhật thông tin chỉnh sửa; và \texttt{DELETE} để xóa dữ liệu.
+\end{itemize}
+
+\subsection{Giao thức hỗ trợ thời gian thực}
+\label{subsec:giao_thuc_thoi_gian_thuc}
+
+Đối với bài toán chăm sóc thú cưng có nhiều người trong gia đình cùng theo dõi, hoặc khi trạng thái lịch nhắc nhở thay đổi, kỹ thuật truy vấn định kỳ truyền thống (\textit{Polling} -- liên tục gửi request sau mỗi chu kỳ cố định) bộc lộ nhược điểm nghiêm trọng: làm tiêu tốn dung lượng 4G/5G vô ích và gây cạn kiệt pin thiết bị.
+
+Để giải quyết vấn đề này, hệ thống ứng dụng giải pháp kết nối luồng hai chiều bền bỉ (Bidirectional Streaming) qua giao thức gRPC và HTTP/2 Multiplexing được tích hợp sẵn trong Firestore Android SDK:
+\begin{itemize}
+    \item Ứng dụng khách thiết lập một kết nối TCP dài hạn duy nhất với máy chủ Google Cloud.
+    \item Khi có bất kỳ thay đổi nào xảy ra trên tài liệu (ví dụ: một mũi tiêm được đánh dấu hoàn thành), máy chủ sẽ chủ động đẩy thông báo thay đổi (\textit{Snapshot Event}) về máy khách thông qua giao diện \texttt{EventListener}.
+    \item Băng thông chỉ tiêu thụ khi thực sự có sự biến động dữ liệu, giảm thiểu độ trễ xuống dưới 200ms.
+\end{itemize}
+
+\section{Kiến trúc hệ thống}
+\label{sec:kien_truc_he_thong}
+
+\subsection{Kiến trúc Backend-as-a-Service (Firebase)}
+\label{subsec:kien_truc_backend}
+
+Hệ thống lựa chọn kiến trúc không máy chủ (Serverless BaaS) với nền tảng Google Firebase, giúp nhóm phát triển tập trung toàn lực vào trải nghiệm nghiệp vụ trên di động mà không phải vận hành cụm máy chủ ảo hoặc cấu hình cân bằng tải:
+
+\begin{enumerate}
+    \item \textbf{Firebase Authentication:} Quản lý vòng đời tài khoản người dùng, băm mật khẩu bằng thuật toán scrypt bảo mật cao, cấp mã nhận dạng duy nhất (\texttt{UID}) và mã thông báo JWT. Đồng thời tích hợp trực tiếp với giao thức OAuth 2.0 để hỗ trợ đăng nhập một chạm qua Google ID thông qua bộ thư viện \texttt{androidx.credentials.CredentialManager}.
+    \item \textbf{Cloud Firestore:} Cung cấp khả năng lưu trữ phân tán đa vùng (Multi-region replication), độ sẵn sàng đạt 99.999\%. Điểm mấu chốt của Firestore là cơ chế lưu trữ đệm ngoại tuyến (\textit{Offline Persistence}). Khi thiết bị mất sóng hoặc vào chế độ máy bay, toàn bộ thao tác đọc/ghi vẫn diễn ra bình thường trên cơ sở dữ liệu cục bộ SQLite nhúng; khi có mạng trở lại, SDK sẽ tự động hợp nhất và giải quyết xung đột với máy chủ đám mây.
+    \item \textbf{Cloud Firestore Security Rules:} Đảm bảo an ninh dữ liệu ở mức khai báo chính sách (Declarative Security). Mọi thao tác truy vấn đều được kiểm tra điều kiện quyền sở hữu trước khi thực thi, ngăn chặn triệt để hành vi trích xuất dữ liệu trái phép.
+\end{enumerate}
+
+\subsection{Kiến trúc ứng dụng di động (Modern Android Architecture)}
+\label{subsec:kien_truc_frontend_mobile}
+
+Mã nguồn ứng dụng được tổ chức theo chuẩn kiến trúc khuyến nghị bởi Google Android Architecture Guidelines, kết hợp mô hình MVVM (Model -- View -- ViewModel) và Repository Pattern:
+
+\begin{enumerate}
+    \item \textbf{Tầng Giao diện (UI Layer):}
+    \begin{itemize}
+        \item Được xây dựng 100\% bằng \textbf{Jetpack Compose} theo tư duy lập trình khai báo (Declarative UI). Thay vì khởi tạo các file bố cục XML cồng kềnh và sử dụng các hàm \texttt{findViewById()} dễ gây lỗi NullPointerException, giao diện được định nghĩa dưới dạng các hàm có gắn cờ chú thích \texttt{@Composable}.
+        \item Giao diện là hàm của trạng thái: $\text{UI} = f(\text{State})$. Bất cứ khi nào trạng thái thay đổi, Compose tự động tính toán lại và chỉ vẽ lại các thành phần bị ảnh hưởng (\textit{Recomposition}), tối ưu hóa hiệu năng render ở tần số 60 FPS.
+    \end{itemize}
+
+    \item \textbf{Tầng Trình bày và Quản lý trạng thái (ViewModel Layer):}
+    \begin{itemize}
+        \item Lớp \texttt{ViewModel} (như \texttt{HomeViewModel}, \texttt{HealthViewModel}, \texttt{CalendarViewModel}, \texttt{MapViewModel}) nắm giữ trạng thái giao diện thông qua \texttt{StateFlow} và \texttt{MutableStateFlow}.
+        \item Vòng đời của ViewModel độc lập với vòng đời của Activity/Screen, giúp bảo toàn toàn bộ dữ liệu nhập liệu và danh sách đang tải khi thiết bị xoay ngang/dọc hoặc bị gián đoạn cuộc gọi.
+    \end{itemize}
+
+    \item \textbf{Tầng Dữ liệu và Kho lưu trữ (Data \& Repository Layer):}
+    \begin{itemize}
+        \item Lớp \texttt{PetRepository} đóng vai trò là điểm cung cấp dữ liệu duy nhất (Single Source of Truth) cho toàn bộ ứng dụng. Lớp này che giấu chi tiết cài đặt của tầng mạng Firebase, đóng gói các luồng xử lý dữ liệu và cung cấp các hàm nghiệp vụ rõ ràng cho ViewModel gọi tới.
+    \end{itemize}
+
+    \item \textbf{Luồng dữ liệu một chiều (Unidirectional Data Flow -- UDF):}
+    \begin{itemize}
+        \item Dữ liệu di chuyển theo một chiều duy nhất: Sự kiện tương tác của người dùng (nhấn nút, nhập văn bản) được đẩy từ Composable lên ViewModel $\rightarrow$ ViewModel cập nhật logic và đẩy trạng thái mới (UI State) xuống qua \texttt{StateFlow} $\rightarrow$ Composable quan sát và hiển thị kết quả. Luồng dữ liệu khép kín này giúp loại trừ hoàn toàn các trạng thái bất đồng bộ và giảm thiểu lỗi logic trong ứng dụng.
+    \end{itemize}
+\end{enumerate}

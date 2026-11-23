@@ -1,0 +1,42 @@
+# ================= LaTeX Build Files =================
+*.aux
+*.log
+*.out
+*.toc
+*.lof
+*.lot
+*.fls
+*.fdb_latexmk
+*.synctex.gz
+*.synctex(busy)
+*.bbl
+*.blg
+*.bcf
+*.run.xml
+*.nav
+*.snm
+*.vrb
+*.idx
+*.ilg
+*.ind
+*.glg
+*.glo
+*.gls
+*.ist
+*.dvi
+
+# ================= AI Guidelines & Prompts =================
+AI_GUIDELINES.md
+*.prompt
+*.chat
+
+# ================= Editor & OS Files =================
+*.swp
+*.swo
+*~
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+desktop.ini
+*.bak

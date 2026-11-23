@@ -1,0 +1,58 @@
+% ================= CHƯƠNG 5: KẾT LUẬN VÀ HƯỚNG PHÁT TRIỂN =================
+\chapter{KẾT LUẬN VÀ HƯỚNG PHÁT TRIỂN}
+\label{chap:ket_luan_huong_phat_trien}
+
+\section{Tổng kết các kết quả đạt được}
+\label{sec:tong_ket_ket_qua}
+
+Sau quá trình nghiên cứu lý thuyết, phân tích thiết kế và hiện thực hóa mã nguồn, đề tài \textbf{``\ProjectTitle''} đã hoàn thành toàn bộ khối lượng công việc và mục tiêu đề ra ban đầu:
+
+\begin{enumerate}
+    \item \textbf{Về mặt sản phẩm và tính năng phần mềm:}
+    \begin{itemize}
+        \item Xây dựng thành công ứng dụng di động PetCareApp hoàn chỉnh trên hệ điều hành Android, hiện thực hóa trung thực bộ thiết kế gồm 41 màn hình và 161 liên kết tương tác từ bản mẫu Figma.
+        \item Đưa vào vận hành ổn định 5 phân hệ chức năng: Phân hệ xác thực đa phương thức; Phân hệ quản lý hồ sơ định danh thú cưng; Phân hệ sổ theo dõi sức khỏe điện tử (tiêm chủng, thuốc, bệnh án, cân nặng); Phân hệ quản lý lịch trình thông minh; và Phân hệ bản đồ định vị phòng khám thú y lân cận dựa trên GPS.
+        \item Đảm bảo khả năng đồng bộ dữ liệu thời gian thực và duy trì khả năng truy cập ngoại tuyến khi thiết bị mất sóng mạng thông qua nền tảng Google Firebase.
+    \end{itemize}
+
+    \item \textbf{Về mặt kỹ thuật và năng lực công nghệ:}
+    \begin{itemize}
+        \item Làm chủ và ứng dụng thành thạo bộ công cụ xây dựng giao diện hiện đại nhất của Google là \textbf{Jetpack Compose} kết hợp hệ thống thiết kế \textbf{Material Design 3}, loại bỏ hoàn toàn các tệp giao diện XML truyền thống.
+        \item Tổ chức mã nguồn chặt chẽ theo chuẩn kiến trúc công nghiệp \textbf{MVVM (Model -- View -- ViewModel)} kết hợp \textbf{Repository Pattern}, ứng dụng triệt để luồng dữ liệu một chiều (Unidirectional Data Flow) với \textbf{Kotlin Coroutines} và \textbf{StateFlow}.
+        \item Tích hợp thành công các dịch vụ đám mây chuyên sâu: Firebase Authentication, Cloud Firestore NoSQL Database, Google Play Services Maps SDK (Maps Compose) và AndroidX Credential Manager.
+    \end{itemize}
+\end{enumerate}
+
+\section{Kết luận}
+\label{sec:ket_luan}
+
+Sản phẩm phần mềm PetCareApp ra đời xuất phát từ chính nhu cầu thực tiễn cấp bách của người nuôi thú cưng tại các đô thị lớn ở Việt Nam trong bối cảnh xã hội ngày càng gắn kết sâu sắc với vật nuôi (hiện tượng Pet Humanization). Ứng dụng đã chứng minh tính hiệu quả vượt trội trong việc thay thế các cuốn sổ tiêm phòng giấy dễ rách nát, phân tán thành một hệ sinh thái hồ sơ y tế số hóa tập trung, an toàn và dễ dàng tra cứu mọi lúc mọi nơi. Đồng thời, tính năng bản đồ và định vị GPS giúp rút ngắn đáng kể thời gian tiếp cận cơ sở y tế khi xảy ra các trường hợp cấp cứu ngoại khoa khẩn cấp.
+
+Đối với nhóm sinh viên thực hiện, đề tài là cơ hội quý báu giúp củng cố kiến thức nền tảng đã học tại Trường Đại học Giao thông Vận tải TP.HCM, nâng cao kỹ năng lập trình di động chuyên nghiệp, làm quen với quy trình quản lý dự án linh hoạt Agile/Scrum và kỹ năng làm việc nhóm trên hệ thống quản lý mã nguồn Git.
+
+\section{Những điểm còn hạn chế của đề tài}
+\label{sec:han_che}
+
+Dù đã đạt được nhiều kết quả tích cực, do giới hạn về mặt thời gian và kinh phí thực hiện, đề tài vẫn còn tồn tại một số điểm hạn chế kỹ thuật:
+\begin{itemize}
+    \item \textbf{Giới hạn nền tảng hệ điều hành:} Ứng dụng hiện tại mới chỉ được phát triển chuyên biệt cho nền tảng Android Native bằng Kotlin, chưa có phiên bản chạy trên hệ điều hành iOS để tiếp cận tệp người dùng sử dụng iPhone/iPad.
+    \item \textbf{Chưa tích hợp cổng thanh toán trực tuyến:} Ứng dụng chưa hỗ trợ thanh toán điện tử (như VNPay, MoMo, ZaloPay) để người dùng có thể đặt lịch hẹn có phí trước tại các phòng khám hoặc mua sắm trực tuyến các sản phẩm chăm sóc thú cưng.
+    \item \textbf{Nguồn dữ liệu địa điểm bản đồ:} Danh sách cơ sở thú y và spa trên bản đồ hiện đang sử dụng cơ sở dữ liệu nội bộ được thu thập chọn lọc, chưa thể tự động quét và cập nhật liên tục thông qua API Google Places thương mại do rào cản chi phí duy trì dịch vụ API của Google.
+    \item \textbf{Cơ chế thông báo đẩy trên thiết bị (Push Notifications):} Hệ thống hiện đang dựa trên thông báo nội bộ ứng dụng, chưa tích hợp Firebase Cloud Messaging (FCM) ở mức dịch vụ hệ thống chạy ngầm để gửi thông báo nhắc lịch khi ứng dụng bị tắt hoàn toàn khỏi thanh tác vụ.
+\end{itemize}
+
+\section{Hướng phát triển trong tương lai}
+\label{sec:huong_phat_trien}
+
+Nhằm nâng cao giá trị ứng dụng và hướng tới việc thương mại hóa sản phẩm, nhóm đề tài định hướng tiếp tục hoàn thiện và phát triển hệ thống với các nội dung trọng tâm sau:
+
+\begin{enumerate}
+    \item \textbf{Mở rộng sang giải pháp đa nền tảng (Cross-Platform):} Nghiên cứu áp dụng công nghệ \textbf{Compose Multiplatform} hoặc \textbf{Kotlin Multiplatform (KMP)} để chia sẻ toàn bộ tầng Logic, ViewModel và Repository sang hệ điều hành iOS, giúp tiết kiệm thời gian phát triển mà vẫn bảo tồn hiệu năng nguyên bản của ứng dụng.
+    \item \textbf{Tích hợp Trí tuệ nhân tạo (AI Assistant \& Computer Vision):}
+    \begin{itemize}
+        \item Ứng dụng mô hình học sâu (Deep Learning / TensorFlow Lite) để nhận diện hình ảnh các bệnh lý ngoài da thường gặp ở chó mèo (như nấm da, ghẻ Demodex, viêm da dị ứng), đưa ra khuyến cáo sơ cứu ban đầu trước khi đến phòng khám.
+        \item Xây dựng trợ lý ảo thông minh (AI Chatbot) hỗ trợ giải đáp nhanh các thắc mắc về chế độ dinh dưỡng và cách chăm sóc vật nuôi sơ sinh 24/7.
+    \end{itemize}
+    \item \textbf{Phát triển tính năng Mạng xã hội cộng đồng (Pet Social Network):} Xây dựng không gian để những người nuôi thú cưng kết nối, đăng tải hình ảnh nhật ký đáng yêu của vật nuôi, chia sẻ kinh nghiệm nuôi dưỡng và hỗ trợ tìm kiếm thú cưng bị thất lạc hoặc nhận nuôi thú cưng vô gia cư.
+    \item \textbf{Liên kết đối tác phòng khám và Cổng thanh toán:} Hợp tác với các chuỗi bệnh viện thú y lớn để đồng bộ hồ sơ bệnh án điện tử hai chiều giữa ứng dụng của chủ nuôi và hệ thống quản trị của bác sĩ; tích hợp cổng thanh toán trực tuyến để đặt lịch khám dịch vụ chuyên nghiệp.
+\end{enumerate}
